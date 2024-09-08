@@ -1,0 +1,109 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'org.jetbrains.kotlin.android'
+apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'realm-android'
+
+android {
+    namespace = "com.trungvothanh.weatherapplication"
+    compileSdk = 34
+
+    defaultConfig {
+        applicationId = "com.trungvothanh.weatherapplication"
+        minSdk = 24
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
+    buildFeatures {
+        viewBinding = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17 // Use Java 17
+        targetCompatibility JavaVersion.VERSION_17 // Use Java 17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17" // Ensure Kotlin is also targeting Java 17
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+
+}
+
+kapt {
+    correctErrorTypes = true
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation libs.kotlin.stdlib
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.androidx.cardview
+    implementation libs.androidx.activity.ktx
+    implementation libs.androidx.recyclerview
+    implementation libs.androidx.junit.ktx
+    implementation libs.material
+    androidTestImplementation libs.androidx.runner
+    androidTestImplementation libs.androidx.rules
+    androidTestImplementation libs.androidx.junit
+
+    //retrofit
+    implementation libs.gson
+    implementation libs.retrofit
+    implementation libs.converter.gson
+
+    //LifeCycle
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.androidx.lifecycle.livedata.ktx
+
+    // Coroutines
+    implementation libs.kotlinx.coroutines.android
+    implementation libs.kotlinx.coroutines.core
+
+    //dagger-hilt
+    implementation libs.hilt.android
+    kapt libs.hilt.android.compiler
+    androidTestImplementation libs.hilt.android.testing
+    kaptAndroidTest libs.hilt.android.compiler
+
+    //Realm
+    implementation libs.realm.android.library
+
+    //glide
+    implementation libs.glide
+
+    // Android-specific MockK
+    androidTestImplementation(libs.mockk.android)
+
+    // Kotlin Coroutines for testing
+    androidTestImplementation libs.kotlinx.coroutines.test
+
+    // JUnit
+    androidTestImplementation libs.junit
+}
